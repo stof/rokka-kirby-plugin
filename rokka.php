@@ -144,7 +144,7 @@ class rokka {
     }
     $rokkaImageObject = self::getRokkaImageObject($file);
 
-    if (!$hash = self::$rokka->getHashOrUpload($rokkaImageObject)) {
+    if (!$hash = self::$rokka->getHashMaybeUpload($rokkaImageObject)) {
       return $file->$operation($width, $height)->url();
     }
     $stacks = c::get('plugin.rokka.stacks');
@@ -157,7 +157,7 @@ class rokka {
     } else {
       $stack = $dynamicStack;
     }
-    return self::$rokka->composeRokkaUrlWithImage($hash, $stack, $format, $rokkaImageObject);
+    return self::$rokka->generateRokkaUrl($hash, $stack, $format, self::$rokka->getImagename($rokkaImageObject));
   }
 
   public static function getRokkaHash($file) {
